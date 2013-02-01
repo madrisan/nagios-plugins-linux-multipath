@@ -8,8 +8,8 @@ This Nagios plugin checks the multipath status.
 Usage
 
 	check_multipath
-	check_readonlyfs --help
-	check_readonlyfs --version
+	check_multipath --help
+	check_multipath --version
 
 Options 
 
