@@ -223,6 +223,6 @@ main (int argc, char **argv)
       return STATE_CRITICAL;
     }
 
-   printf ("MULTIPATH OK\n");
-   return STATE_OK;
+  printf ("MULTIPATH OK\n");
+  return STATE_OK;
 }
