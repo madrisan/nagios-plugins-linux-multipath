@@ -180,7 +180,8 @@ check_for_faulty_paths (char *buf)
 	  if (subtoken == NULL)
 	    break;
 
-	  # skip the heading and check the 'dm_st' column
+	  /* skip the heading and check the 'dm_st' column
+	   */
 	  if (row > 1 && col == 5 && (!STREQ (subtoken, "[active][ready]")))
 	    faulty_paths++;
 	}
