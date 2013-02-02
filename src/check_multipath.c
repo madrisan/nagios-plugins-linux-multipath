@@ -38,7 +38,7 @@
 static char buffer[BUFSIZE];
 
 static int debug_mode = 0;
-static const char* multipathd_socket = MULTIPATHD_SOCKET;
+static const char *multipathd_socket = MULTIPATHD_SOCKET;
 
 const char *program_name = "check_multipath";
 static const char *program_version = PACKAGE_VERSION;
@@ -85,7 +85,6 @@ write_all (int fd, const void *buf, size_t len)
 	{
 	  if ((errno == EINTR) || (errno == EAGAIN))
 	    continue;
-	  perror ("failed to send message to multipathd");
 	  return total;
 	}
       if (!n)
@@ -110,7 +109,6 @@ read_all (int fd, void *buf, size_t len)
 	{
 	  if ((errno == EINTR) || (errno == EAGAIN))
 	    continue;
-	  perror ("failed to receive message from multipathd");
 	  return total;
 	}
       if (!n)
@@ -141,19 +139,19 @@ multipathd_query (const char *query, char *buf, size_t bufsize)
     error (STATE_UNKNOWN, 0, "cannot connect to %s\n", multipathd_socket);
 
   if (write_all (sock, &len, sizeof (len)) != sizeof (len))
-    error (STATE_UNKNOWN, 0, "write_all() failure\n");
+    error (STATE_UNKNOWN, 0, "failed to send message to multipathd\n");
 
   if (write_all (sock, query, len) != len)
-    error (STATE_UNKNOWN, 0, "write_all() failure\n");
+    error (STATE_UNKNOWN, 0, "failed to send message to multipathd\n");
 
   if (read_all (sock, &len, sizeof (len)) != sizeof (len))
-    error (STATE_UNKNOWN, 0, "read_all() failure\n");
+    error (STATE_UNKNOWN, 0, "failed to receive message from multipathd\n");
 
   if (len > bufsize)
     error (STATE_UNKNOWN, 0, "reply from multipathd too long\n");
 
   if (read_all (sock, buf, len) != len)
-    error (STATE_UNKNOWN, 0, "read_all() failure\n");
+    error (STATE_UNKNOWN, 0, "failed to receive message from multipathd\n");
 
   close (sock);
 }
