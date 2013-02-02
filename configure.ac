@@ -32,6 +32,7 @@ AC_PREFIX_DEFAULT(/usr/local/nagios)
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_C_PROTOTYPES
+AC_TYPE_SIZE_T
 
 AC_MSG_CHECKING(for gcc compiler warnings)
 AC_ARG_ENABLE(warnings,
@@ -58,6 +59,16 @@ else
    WARNINGS=
    AC_MSG_RESULT(no)
 fi])
+
+MULTIPATHD_SOCKET="/var/run/multipathd.sock"
+AC_ARG_WITH(
+   [socketfile],
+   [AS_HELP_STRING(
+       [--with-socketfile],
+       [use a different socket file
+        (default is: /var/run/multipathd.sock)])],
+   [MULTIPATHD_SOCKET="$with_socketfile"])
+AC_SUBST(MULTIPATHD_SOCKET)
 
 AC_CONFIG_FILES(         \
    Makefile              \

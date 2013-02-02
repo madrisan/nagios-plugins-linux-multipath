@@ -31,7 +31,6 @@
 #include <sys/un.h>
 
 #include "common.h"
-#include "defaults.h"
 
 #define STREQ(a, b) (strcmp (a, b) == 0)
 
@@ -39,6 +38,7 @@
 static char buffer[BUFSIZE];
 
 static int debug_mode = 0;
+static const char* multipathd_socket = MULTIPATHD_SOCKET;
 
 const char *program_name = "check_multipath";
 static const char *program_version = PACKAGE_VERSION;
@@ -134,11 +134,11 @@ multipathd_query (const char *query, char *buf, size_t bufsize)
     error (STATE_UNKNOWN, 0, "cannot create unix stream socket\n");
 
   sun.sun_family = AF_UNIX;
-  strncpy (sun.sun_path, DEFAULT_SOCKET, sizeof (sun.sun_path));
+  strncpy (sun.sun_path, multipathd_socket, sizeof (sun.sun_path));
   sun.sun_path[sizeof (sun.sun_path) - 1] = 0;
 
   if (connect (sock, (struct sockaddr *) &sun, sizeof (sun)) < 0)
-    error (STATE_UNKNOWN, 0, "cannot connect to %s\n", DEFAULT_SOCKET);
+    error (STATE_UNKNOWN, 0, "cannot connect to %s\n", multipathd_socket);
 
   if (write_all (sock, &len, sizeof (len)) != sizeof (len))
     error (STATE_UNKNOWN, 0, "write_all() failure\n");
