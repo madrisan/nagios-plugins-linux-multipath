@@ -200,9 +200,6 @@ main (int argc, char **argv)
 {
   int c, faulty_paths;
 
-  if (getuid () != 0)
-    error (STATE_UNKNOWN, 0, "need to be root\n");
-
   while ((c = getopt_long (argc, argv, "dhv", longopts, NULL)) != -1)
     {
       switch (c)
@@ -218,6 +215,9 @@ main (int argc, char **argv)
         case_GETOPT_VERSION_CHAR
         }
     }
+
+  if (getuid () != 0)
+    error (STATE_UNKNOWN, 0, "need to be root\n");
 
   multipathd_query ("show paths", buffer, sizeof (buffer));
   faulty_paths = check_for_faulty_paths (buffer);
