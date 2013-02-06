@@ -59,7 +59,7 @@ static void __attribute__ ((__noreturn__)) usage (FILE * out)
   fprintf (out, "%s\n\n", program_copyright);
   fprintf (out, "Usage: %s [OPTION]...\n\n", program_name);
   fputs ("\
-  -l, --list                show multipath topology\n", out);
+  -d, --debug     enable verbose output\n", out);
   fputs (HELP_OPTION_DESCRIPTION, out);
   fputs (VERSION_OPTION_DESCRIPTION, out);
 
@@ -172,6 +172,9 @@ check_for_faulty_paths (char *buf)
       if (token == NULL)
 	break;
 
+      if (debug_mode)
+	printf ("%s\n", token);
+
       for (col = 1, str2 = token;; col++, str2 = NULL)
 	{
 	  subtoken = strtok_r (str2, " \t", &saveptr2);
@@ -181,7 +184,11 @@ check_for_faulty_paths (char *buf)
 	  /* skip the heading and check the 'dm_st' column
 	   */
 	  if (row > 1 && col == 5 && (!STREQ (subtoken, "[active][ready]")))
-	    faulty_paths++;
+	    {
+	      if (debug_mode)
+		printf (" \\ faulty path detected!\n");
+	      faulty_paths++;
+	    }
 	}
     }
 
