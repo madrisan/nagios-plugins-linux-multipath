@@ -7,18 +7,20 @@ This Nagios plugin checks the multipath status.
 
 Usage
 
-	check_multipath
+	check_multipath [--debug]
 	check_multipath --help
 	check_multipath --version
 
 Options 
 
+	-d, --debug               enable verbose output
 	-h, --help                display this help and exit
 	-v, --version             output version information and exit
 
 Examples
 
 	check_multipath
+	check_multipath --debug
 
 ## Source code
 
